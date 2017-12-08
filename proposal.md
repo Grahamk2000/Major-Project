@@ -15,3 +15,15 @@
 * awesome graphics 
 * sounds
 * different versions of each game/ difficulties
+* highscore / leaderboards
+
+
+
+## Games I Want To Include
+* minesweeper
+* snake
+* pinball
+* pool
+* pac-man
+* flappy bird
+* brick breaker

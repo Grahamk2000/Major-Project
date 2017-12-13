@@ -1,3 +1,5 @@
+
+
 PoolTable thePoolTable;
 PoolBall thePoolBalls;
 Point thePoints;
@@ -10,7 +12,7 @@ void setup() {
   
   thePoolBalls = new PoolBall(width, height/2);
   
-  
+ 
 }
 
 void draw(){

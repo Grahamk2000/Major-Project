@@ -1,45 +1,62 @@
 class PoolBall {
+  
+  int numberOfBalls = 10;
+  
   float ballDiam = width/30;
+  PVector ballLocations[], ballVelocity[], ballAcceleration[];
 
-  ArrayList<Point> ballLocations = new ArrayList<Point>();
+  
   float tableWidth, tableHeight;
+  
+  
+
 
   PoolBall(int _tableWidth, int _tableHeight) {
+    
+    ballLocations = new PVector[numberOfBalls];
+    ballVelocity = new PVector[numberOfBalls];
+    ballAcceleration = new PVector[numberOfBalls];
 
+    
     tableWidth =  _tableWidth;
     tableHeight = _tableHeight;
-
-    //for (int i = 0; i< 5; i++) {
-    //  for (int d = 0; d < 100; d += ballDiam) {
-    fill(0);
-    ballLocations.add( new Point(tableWidth/10, tableHeight ) );
-    ballLocations.add( new Point(tableWidth/2, tableHeight ) );
-    //}
-    //}
+    
+            for (int i = 0; i< ballLocations.length; i++) {
+        ballLocations[i] = new PVector(random(ballDiam, width - ballDiam ), 
+            random(height/4 + ballDiam , height - height/4 - ballDiam));
+            }
+    
   }
-
+    
 
 
   void updateBalls() {
-
-
-    if (mousePressed == true) {
-
-
+    
+    if (mousePressed == true){
+      
+      
     }
+    
+
+    
+
+
+
+
 
 
     displayBalls();
   }
 
   void displayBalls() {
-    for (int i=1; i<ballLocations.size(); i++) {
+    for (int i=1; i<ballLocations.length; i++) {
 
 
       fill(255, 255, 0);
-      ellipse(ballLocations.get(i).x, ballLocations.get(i).y, ballDiam, ballDiam);
+      ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
     }
     fill(255);
-    ellipse(ballLocations.get(0).x, ballLocations.get(0).y, ballDiam, ballDiam);
-  }
+    ellipse(ballLocations[0].x, ballLocations[0].y, ballDiam, ballDiam);
+  
+}
 }

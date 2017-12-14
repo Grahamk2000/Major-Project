@@ -2,7 +2,7 @@
 
 PoolTable thePoolTable;
 PoolBall thePoolBalls;
-Point thePoints;
+
 
 void setup() {
   size(800, 800);

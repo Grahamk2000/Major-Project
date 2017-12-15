@@ -45,35 +45,38 @@ class PoolBall {
         PVector mouse = new PVector(mouseX, mouseY);
         PVector dir = PVector.sub(mouse, ballLocations[i]);
 
-        dir.normalize();
-        dir.mult(50);
+        //dir.normalize();
+        dir.mult(.1);
         ballAcceleration[i] = dir;
 
 
-        ballVelocity[0].limit(5);
+        ballVelocity[i].limit(5);
 
         println(ballVelocity[i]);
         println(ballAcceleration[i]);
 
         ballVelocity[i].add(ballAcceleration[i]);
         ballLocations[i].add(ballVelocity[i]);
-
-      }
+        
+        if (ballLocations[i] == mouse){   
+          ballVelocity[i].x = 0;
+          ballVelocity[i].y = 0;
+        }
+        
+        }
     }
-        displayBalls();
+    displayBalls();
   }
-  
-  
+
+
   void shotAiming() {
     if (mouseY < height/4) {
       aimingY = height/4;
       aimingX = mouseX;
-    } 
-    else if (mouseY > height/4 + tableHeight) {
+    } else if (mouseY > height/4 + tableHeight) {
       aimingY = int( height/4 +  tableHeight);
       aimingX = mouseX;
-    } 
-    else {
+    } else {
       aimingX = mouseX;
       aimingY = mouseY;
     }
@@ -82,15 +85,15 @@ class PoolBall {
   }
 
 
-void displayBalls() {
-  for (int i=1; i<ballLocations.length; i++) {
-    fill(255, 255, 0);
-    
-    
-    ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
-  }
+  void displayBalls() {
+    for (int i=1; i<ballLocations.length; i++) {
+      fill(255, 255, 0);
 
-  fill(255);
-  ellipse(ballLocations[0].x, ballLocations[0].y, ballDiam, ballDiam);
-}
+
+      ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
+    }
+
+    fill(255);
+    ellipse(ballLocations[0].x, ballLocations[0].y, ballDiam, ballDiam);
+  }
 }

@@ -18,6 +18,7 @@ void setup() {
 void draw(){
   background(255);
   thePoolTable.display();
+  thePoolBalls.shotAiming();
   thePoolBalls.updateBalls();
   
   

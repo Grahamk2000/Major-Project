@@ -41,18 +41,18 @@ class PoolBall {
     if (mousePressed == true){
      clickedMouseX = mouseX;
      clickedMouseY = mouseY;
-     //fill(255, 0, 0);
-     //ellipse(clickedMouseX, clickedMouseY, width/60, width/60);
+
+
       
     }
     
      fill(255, 0, 0);
-     ellipse(clickedMouseX, clickedMouseY, width/60, width/60);
+     ellipse(clickedMouseX, clickedMouseY, ballDiam, ballDiam);
       
     
     if (keyPressed == true) {
       
-      if (key ==  '1'){
+      if (key ==  ' '){
         
           //bounceBalls();
       for (int i=0; i<numberOfBalls; i++) {

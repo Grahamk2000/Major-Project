@@ -5,12 +5,12 @@ PoolBall thePoolBalls;
 
 
 void setup() {
-  size(800, 800);
+  size(1600, 800);
   
   
-  thePoolTable = new PoolTable(width, height/2);
+  thePoolTable = new PoolTable(width/2, height/2);
   
-  thePoolBalls = new PoolBall(width, height/2);
+  thePoolBalls = new PoolBall(width/2, height/2);
   
  
 }

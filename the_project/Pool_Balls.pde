@@ -2,7 +2,7 @@ class PoolBall {
 
   int numberOfBalls = 1;
 
-  float ballDiam = width/30;
+  float ballDiam = width/50;
   PVector ballLocations[], ballVelocity[], ballAcceleration[];
 
   PVector mouse;
@@ -10,6 +10,7 @@ class PoolBall {
 
   float tableWidth, tableHeight;
   float aimingX, aimingY;
+  float clickedMouseX, clickedMouseY;
 
 
 
@@ -29,7 +30,7 @@ class PoolBall {
     tableHeight = _tableHeight;
 
     for (int i = 0; i< ballLocations.length; i++) {
-      ballLocations[i] = new PVector(random(ballDiam, width - ballDiam ), 
+      ballLocations[i] = new PVector(random(width/4 + ballDiam, (width - width/4) - ballDiam ), 
         random(height/4 + ballDiam, height - height/4 - ballDiam));
     }
   }
@@ -37,22 +38,32 @@ class PoolBall {
 
 
   void updateBalls() {
-
+    if (mousePressed == true){
+     clickedMouseX = mouseX;
+     clickedMouseY = mouseY;
+     //fill(255, 0, 0);
+     //ellipse(clickedMouseX, clickedMouseY, width/60, width/60);
+      
+    }
+    
+     fill(255, 0, 0);
+     ellipse(clickedMouseX, clickedMouseY, width/60, width/60);
+      
+    
     if (keyPressed == true) {
+      
       if (key ==  '1'){
         
           //bounceBalls();
       for (int i=0; i<numberOfBalls; i++) {
         if (i == 0) {
-          PVector mouse = new PVector(mouseX, mouseY);
+          PVector mouse = new PVector(clickedMouseX, clickedMouseY);
           PVector dir = PVector.sub(mouse, ballLocations[i]);
 
           //dir.normalize();
           dir.mult(.1);
-          ballAcceleration[i] = dir;
-          ballVelocity[i].limit(5);
-          ballVelocity[i].add(ballAcceleration[i]);
-          ballLocations[i].add(ballVelocity[i]);
+
+          ballLocations[i].add(dir);
 
           if (ballLocations[i] == mouse) {   
             ballVelocity[i].x = 0;

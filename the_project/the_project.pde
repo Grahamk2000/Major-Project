@@ -5,7 +5,7 @@ PoolBall thePoolBalls;
 
 
 void setup() {
-  size(1600, 800);
+  size(1500, 750);
   
   
   thePoolTable = new PoolTable(width/2, height/2);
@@ -23,4 +23,8 @@ void draw(){
   
   
   
+}
+
+void keyPressed() {
+  thePoolBalls.handleKeyPressed();
 }

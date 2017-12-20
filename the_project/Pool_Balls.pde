@@ -11,8 +11,8 @@ class PoolBall {
   float tableWidth, tableHeight;
   float aimingX, aimingY;
   float clickedMouseX, clickedMouseY;
-
-
+  boolean shootBall = false;
+  
 
 
   PoolBall(int _tableWidth, int _tableHeight) {
@@ -35,41 +35,69 @@ class PoolBall {
     }
   }
 
+  void handleKeyPressed(){
+    shootBall = true;
+    
+  }
+
 
 
   void updateBalls() {
-    if (mousePressed == true){
-     clickedMouseX = mouseX;
-     clickedMouseY = mouseY;
-
-
-      
+    if (mousePressed == true) {
+      clickedMouseX = mouseX;
+      clickedMouseY = mouseY;
     }
-    
-     fill(255, 0, 0);
-     ellipse(clickedMouseX, clickedMouseY, ballDiam, ballDiam);
-      
-    
-    if (keyPressed == true) {
-      
-      if (key ==  ' '){
-        
-          //bounceBalls();
+
+    fill(255, 0, 0);
+    ellipse(clickedMouseX, clickedMouseY, ballDiam/2, ballDiam/2);
+
+
+    if (shootBall == true) {
+
+
+
+      //bounceBalls();
       for (int i=0; i<numberOfBalls; i++) {
         if (i == 0) {
           PVector mouse = new PVector(clickedMouseX, clickedMouseY);
           PVector dir = PVector.sub(mouse, ballLocations[i]);
+          
+                if (mousePressed == true){
+       dir.mult(0); 
+      }
 
           //dir.normalize();
-          dir.mult(.1);
+          
+          println(mouse);
+          println();
+          println(dir);
+          
+          if(mouse == dir){
+            shootBall = false;
+            
+          }
+
+
+          if (key ==  '1') { 
+            dir.mult(.07);
+          }
+          else if (key ==  '2') { 
+            dir.mult(.15);
+          }
+          else if (key ==  '3') { 
+            dir.mult(.25);
+          }
+          else{
+            dir.mult(0.1);
+          }
+
 
           ballLocations[i].add(dir);
 
-          if (ballLocations[i] == mouse) {   
-            ballVelocity[i].x = 0;
-            ballVelocity[i].y = 0;
+          if ((ballLocations[i].x == clickedMouseX) &&  (ballLocations[i].y == clickedMouseY)){   
+              dir.mult(0);
+              shootBall = false;
           }
-        }
         }
       }
     }
@@ -106,12 +134,12 @@ class PoolBall {
 
             PVector dir = PVector.sub(ballLocations[a], ballLocations[b]);
 
-//            dir.normalize();
+            //            dir.normalize();
 
 
 
             dir.mult(.1);
-            ballAcceleration[b]  = dir;
+            ballAcceleration[b]  = dir.mult(-1);
             ballVelocity[b].limit(5);
             ballVelocity[b].add(ballAcceleration[b]);
             ballLocations[b].add(ballVelocity[b]);

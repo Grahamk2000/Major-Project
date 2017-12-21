@@ -7,7 +7,10 @@ class PoolTable{
     tableWidth =  _tableWidth;
     tableHeight = _tableHeight;
     pocketSize = width/20;
-    
+    PVector pockets[];
+    // order of pockets 0  1  2
+    //                  3  4  5
+
   }
   
   void display(){
@@ -16,8 +19,10 @@ class PoolTable{
      
      //pockets
      fill(0);
+     
      ellipse(width/2, height/4, pocketSize, pocketSize); // top Middle
      
+     //pockets[0] = new PVector(width/4, height/4);
      ellipse(width/4, height/4, pocketSize, pocketSize);//top Left
      
      ellipse(width - width/4, height/4, pocketSize, pocketSize);
@@ -27,6 +32,8 @@ class PoolTable{
      ellipse(width/4, height/4 + tableHeight, pocketSize, pocketSize);
      
      ellipse(width - width/4, height/4 + tableHeight,pocketSize, pocketSize);
+     
+     //printnln(pockets[0]);
     
   }
   

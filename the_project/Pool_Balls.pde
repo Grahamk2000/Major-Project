@@ -12,7 +12,8 @@ class PoolBall {
   float aimingX, aimingY;
   float clickedMouseX, clickedMouseY;
   boolean shootBall = false;
-  
+  int state[];
+
 
 
   PoolBall(int _tableWidth, int _tableHeight) {
@@ -21,7 +22,7 @@ class PoolBall {
     ballVelocity = new PVector[numberOfBalls];
     ballAcceleration = new PVector[numberOfBalls];
     mouse = new PVector(mouseX, mouseY);
-    
+
 
     for (int i=0; i<ballVelocity.length; i++) {
       ballVelocity[i] = new PVector(0, 0);
@@ -36,17 +37,16 @@ class PoolBall {
     }
   }
 
-  void handleKeyPressed(){
-    
+  void handleKeyPressed() {
+
     shootBall = true;
-    
   }
 
 
 
   void updateBalls() {
-    if (mousePressed == true && shootBall == false)  {
-      
+    if (mousePressed == true && shootBall == false) {
+
       clickedMouseX = mouseX;
       clickedMouseY = mouseY;
     }
@@ -66,41 +66,40 @@ class PoolBall {
           PVector mouse = new PVector(clickedMouseX, clickedMouseY);
           PVector dir = PVector.sub(mouse, ballLocations[i]);
           
-      //          if (mousePressed == true){
-      // dir.mult(0); 
-      //}
+          
+          
+
+          //          if (mousePressed == true){
+          // dir.mult(0); 
+          //}
 
           //dir.normalize();
-          
+
           println(targetLocation);
           println();
           println(ballLocations[0]);
-          
-         if (targetLocation.dist( ballLocations[0]) <= 0.1){
+
+          if (targetLocation.dist( ballLocations[0]) <= 0.1) {
             shootBall = false;
-            
           }
 
 
           if (key ==  '1') { 
             dir.mult(.07);
-          }
-          else if (key ==  '2') { 
+          } else if (key ==  '2') { 
             dir.mult(.15);
-          }
-          else if (key ==  '3') { 
+          } else if (key ==  '3') { 
             dir.mult(.25);
-          }
-          else{
+          } else {
             dir.mult(0.1);
           }
 
 
           ballLocations[i].add(dir);
 
-          if ((ballLocations[i].x == clickedMouseX) &&  (ballLocations[i].y == clickedMouseY)){   
-              dir.mult(0);
-              shootBall = false;
+          if ((ballLocations[i].x == clickedMouseX) &&  (ballLocations[i].y == clickedMouseY)) {   
+            dir.mult(0);
+            shootBall = false;
           }
         }
       }
@@ -112,45 +111,23 @@ class PoolBall {
 
 
   void shotAiming() {
-    if (mouseY < height/4) {
-      aimingY = height/4;
-      aimingX = mouseX;
-    } else if (mouseY > height/4 + tableHeight) {
-      aimingY = int( height/4 +  tableHeight);
-      aimingX = mouseX;
-    } else {
-      aimingX = mouseX;
-      aimingY = mouseY;
-    }
+    if (shootBall == false) {
+      if (mouseY < height/4) {
+        aimingY = height/4;
+        aimingX = mouseX;
+      } else if (mouseY > height/4 + tableHeight) {
+        aimingY = int( height/4 +  tableHeight);
+        aimingX = mouseX;
+      } else {
+        aimingX = mouseX;
+        aimingY = mouseY;
+      }
 
-    line(aimingX, aimingY, ballLocations[0].x, ballLocations[0].y);
+      line(aimingX, aimingY, ballLocations[0].x, ballLocations[0].y);
+    }
   }
 
   void bounceBalls() {
-    for (int a=0; a<numberOfBalls; a++) {
-      for (int b=0; b<numberOfBalls; b++) {
-        if (a != b) {
-          float distanceBetweenBalls = PVector.dist(ballLocations[a], ballLocations[b]); 
-          if (distanceBetweenBalls < ballDiam) {
-
-            ballLocations[a].x = ballLocations[b].y ; 
-            ballLocations[a].y = ballLocations[b].x ;
-
-            PVector dir = PVector.sub(ballLocations[a], ballLocations[b]);
-
-            //            dir.normalize();
-
-
-
-            dir.mult(.1);
-            ballAcceleration[b]  = dir.mult(-1);
-            ballVelocity[b].limit(5);
-            ballVelocity[b].add(ballAcceleration[b]);
-            ballLocations[b].add(ballVelocity[b]);
-          }
-        }
-      }
-    }
   }
 
   void bounceOffWall() {
@@ -172,4 +149,18 @@ class PoolBall {
     fill(255);
     ellipse(ballLocations[0].x, ballLocations[0].y, ballDiam, ballDiam);
   }
+  
+  void ballInPocket(){
+    //for (int i=1; i<ballLocations.length; i++) {
+    //  if (ballLocations[i].dist()){
+    //  }
+        
+        
+      
+    
+    
+    
+  }
+  
+  
 }

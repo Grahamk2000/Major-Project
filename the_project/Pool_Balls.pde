@@ -5,7 +5,7 @@ class PoolBall {
   float ballDiam = width/50;
   PVector ballLocations[], ballVelocity[], ballAcceleration[];
 
-  PVector mouse;
+  PVector mouse, targetLocation;
 
 
   float tableWidth, tableHeight;
@@ -21,6 +21,7 @@ class PoolBall {
     ballVelocity = new PVector[numberOfBalls];
     ballAcceleration = new PVector[numberOfBalls];
     mouse = new PVector(mouseX, mouseY);
+    
 
     for (int i=0; i<ballVelocity.length; i++) {
       ballVelocity[i] = new PVector(0, 0);
@@ -36,6 +37,7 @@ class PoolBall {
   }
 
   void handleKeyPressed(){
+    
     shootBall = true;
     
   }
@@ -43,12 +45,14 @@ class PoolBall {
 
 
   void updateBalls() {
-    if (mousePressed == true) {
+    if (mousePressed == true && shootBall == false)  {
+      
       clickedMouseX = mouseX;
       clickedMouseY = mouseY;
     }
 
     fill(255, 0, 0);
+    targetLocation = new PVector(clickedMouseX, clickedMouseY);
     ellipse(clickedMouseX, clickedMouseY, ballDiam/2, ballDiam/2);
 
 
@@ -62,17 +66,17 @@ class PoolBall {
           PVector mouse = new PVector(clickedMouseX, clickedMouseY);
           PVector dir = PVector.sub(mouse, ballLocations[i]);
           
-                if (mousePressed == true){
-       dir.mult(0); 
-      }
+      //          if (mousePressed == true){
+      // dir.mult(0); 
+      //}
 
           //dir.normalize();
           
-          println(mouse);
+          println(targetLocation);
           println();
-          println(dir);
+          println(ballLocations[0]);
           
-          if(mouse == dir){
+         if (targetLocation.dist( ballLocations[0]) <= 0.1){
             shootBall = false;
             
           }

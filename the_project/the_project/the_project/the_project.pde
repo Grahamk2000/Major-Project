@@ -25,8 +25,12 @@ void draw(){
   
 }
 
-void keyPressed() {
+void mousePressed() {
 
-  thePoolBalls.handleKeyPressed();
+  thePoolBalls.handleMousePressed();
  
+}
+
+void keyPressed() {
+ thePoolBalls.handleKeyPressed() ;
 }

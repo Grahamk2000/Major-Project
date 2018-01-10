@@ -122,7 +122,6 @@ class PoolBall {
         aimingY = mouseY;
       }
 
-      
       line(aimingX, aimingY, ballLocations[0].x, ballLocations[0].y);
       fill(255, 0, 0);
 

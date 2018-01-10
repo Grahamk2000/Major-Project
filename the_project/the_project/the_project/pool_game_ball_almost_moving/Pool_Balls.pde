@@ -3,6 +3,7 @@ class PoolBall {
   int numberOfBalls = 1;
 
   float ballDiam = width/50;
+  float ballRadius = ballDiam/2;
   PVector ballLocations[], ballVelocity[], ballAcceleration[], thrust[];
 
   PVector mouse, targetLocation, dir;
@@ -73,8 +74,7 @@ class PoolBall {
         thrust[0].mult(5);
       } else if (key == '4') {
         thrust[0].mult(25);
-      }
-      else{
+      } else {
         thrust[0].mult(2.5);
       }
 
@@ -130,13 +130,31 @@ class PoolBall {
   }
 
   void bounceBalls() {
+    for (int a=0; a<numberOfBalls; a++) {
+      for (int b=0; b<numberOfBalls; b++) {
+      }
+    }
   }
 
   void bounceOffWall() {
     for (int i=0; i<numberOfBalls; i++) {
-      if (ballLocations[i].y < height/4) {
-        mouse.y *= -1;
+      if (ballLocations[i].y < height/4 + ballRadius) {//top of table
+        println("bounce");
+        ballVelocity[0].y = ballVelocity[0].y * -1;
+      } 
+      else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
+        println("bounce");
+        ballVelocity[0].y = ballVelocity[0].y * -1;
+      } 
+      else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
+        println("bounce");
+        ballVelocity[0].x = ballVelocity[0].x * -1;
       }
+      else if (ballLocations[i].x > width - width/4  - ballRadius) {//left side of table 
+        println("bounce");
+        ballVelocity[0].x = ballVelocity[0].x * -1;
+      }
+      
     }
   }
 

@@ -14,6 +14,7 @@ class PoolBall {
   boolean shootBall = false;
   int state[];
   boolean isRotatingNecessary = true;
+  boolean showAimingLine = true;
   //float testingspeed = -50;
 
 
@@ -44,10 +45,6 @@ class PoolBall {
 
     clickedMouseX = mouseX;
     clickedMouseY = mouseY;
-
-
-
-
   }
 
   void handleKeyPressed() {
@@ -67,7 +64,23 @@ class PoolBall {
       thrust = new PVector[numberOfBalls];
       thrust[0] = dir.copy();
       thrust[0].normalize();
-      thrust[0].mult(2.5);
+
+      if (key == '1') {
+        thrust[0].mult(2.5);
+      } else if (key == '2') {
+        thrust[0].mult(4);
+      } else if (key == '3') {
+        thrust[0].mult(5);
+      } else if (key == '4') {
+        thrust[0].mult(25);
+      }
+      else{
+        thrust[0].mult(2.5);
+      }
+
+
+
+
       ballAcceleration[0] = thrust[0];
 
 
@@ -77,16 +90,6 @@ class PoolBall {
 
 
   void updateBalls() {
-    //if (mousePressed == true && shootBall == false) {
-
-    //  clickedMouseX = mouseX;
-    //  clickedMouseY = mouseY;
-    //}
-
-    //fill(255, 0, 0);
-    ////targetLocation = new PVector(clickedMouseX, clickedMouseY);
-    //ellipse(clickedMouseX, clickedMouseY, ballDiam/2, ballDiam/2);
-
 
     if (shootBall == true) {
       ballLocations[0].add(ballVelocity[0]);
@@ -107,7 +110,7 @@ class PoolBall {
 
 
   void shotAiming() {
-    if (shootBall == false) {
+    if (showAimingLine == true) {
       if (mouseY < height/4) {
         aimingY = height/4;
         aimingX = mouseX;
@@ -121,7 +124,7 @@ class PoolBall {
 
       line(aimingX, aimingY, ballLocations[0].x, ballLocations[0].y);
       fill(255, 0, 0);
-      //targetLocation = new PVector(clickedMouseX, clickedMouseY);
+
       ellipse(clickedMouseX, clickedMouseY, ballDiam/2, ballDiam/2);
     }
   }

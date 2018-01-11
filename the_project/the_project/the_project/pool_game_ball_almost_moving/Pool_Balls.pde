@@ -81,15 +81,22 @@ class PoolBall {
         thrust[0].normalize();
 
         if (key == '1') {
-          thrust[0].mult(2.5);
+          thrust[0].mult(2);
         } else if (key == '2') {
-          thrust[0].mult(4);
+          thrust[0].mult(3);
         } else if (key == '3') {
-          thrust[0].mult(5);
+          thrust[0].mult(4);
         } else if (key == '4') {
-          thrust[0].mult(25);
-        } else {
-          thrust[0].mult(2.5);
+          thrust[0].mult(7);
+        } 
+        
+        if (key == '5') {
+          thrust[0].mult(9);
+        }
+        
+        
+        else {
+          thrust[0].mult(1.5);
         }
 
 
@@ -116,7 +123,7 @@ class PoolBall {
         ballLocations[i].add(ballVelocity[i]);
 
         ballAcceleration[i].set(0, 0);
-        ballVelocity[i].div(1.01);
+        ballVelocity[i].div(1.008);
         //println(ballVelocity[0]);
 
         if (abs(ballVelocity[i].x) <= 0.08 && abs(ballVelocity[i].y) <= 0.08) {
@@ -147,7 +154,9 @@ class PoolBall {
       line(aimingX, aimingY, ballLocations[0].x, ballLocations[0].y);
       fill(255, 0, 0);
 
-      ellipse(clickedMouseX, clickedMouseY, ballDiam/2, ballDiam/2);
+      ellipse(clickedMouseX, clickedMouseY, ballDiam, ballDiam);
+      fill(255, 0, 0);
+      ellipse(mouseX, mouseY, ballDiam, ballDiam);
     }
   }
 
@@ -190,6 +199,7 @@ class PoolBall {
 
 
             thrust[b] = dir[b].copy();
+
             thrust[b] = thrust[b].mult(-1);
             thrust[b].normalize();
 

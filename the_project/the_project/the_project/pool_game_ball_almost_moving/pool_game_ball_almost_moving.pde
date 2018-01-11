@@ -5,7 +5,7 @@ PoolBall thePoolBalls;
 
 
 void setup() {
-  size(1500, 750);
+  size(1200, 600);
   
   
   thePoolTable = new PoolTable(width/2, height/2);
@@ -20,6 +20,8 @@ void draw(){
   thePoolTable.display();
   thePoolBalls.shotAiming();
   thePoolBalls.updateBalls();
+  thePoolBalls.bounceOffWall();
+  thePoolBalls.bounceOffBall();
   
   
   

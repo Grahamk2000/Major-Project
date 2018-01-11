@@ -49,7 +49,7 @@ class PoolBall {
 
     ballLocations[0] = new PVector(width/2, height/2);
     ballLocations[1] = new PVector(width/3, height/2);
-    ballLocations[2] = new PVector(2*(width/3) , height/3);
+    ballLocations[2] = new PVector(2*(width/3), height/3);
     //ballAcceleration[0] = new PVector(0, 0);
     //ballVelocity[0] = new PVector(0, 0);
   }
@@ -89,13 +89,10 @@ class PoolBall {
         } else if (key == '4') {
           thrust[0].mult(7);
         } 
-        
+
         if (key == '5') {
           thrust[0].mult(9);
-        }
-        
-        
-        else {
+        } else {
           thrust[0].mult(1.5);
         }
 
@@ -166,6 +163,18 @@ class PoolBall {
     for (int b=0; b<numberOfBalls; b++) {
       int a = 0;
       if (a != b) {
+        
+        
+        
+          //if (ballLocations[0].dist(ballLocations[b]) >= ballDiam) {
+          //  if(shootBall[b] == true){
+          //  shootBall[0] = true;  
+          //  ballVelocity[0] = dir[b].copy();
+          //  ballVelocity[0].mult(-1);
+          //  }
+          //}
+        
+        
 
         if (shootBall[0] == true) {
           if (ballLocations[0].dist(ballLocations[b]) <= ballDiam) {
@@ -200,8 +209,11 @@ class PoolBall {
 
             thrust[b] = dir[b].copy();
 
+            thrust[b].mult(2);
+
             thrust[b] = thrust[b].mult(-1);
             thrust[b].normalize();
+            thrust[b].mult((ballVelocity[0].x *2 )* (ballVelocity[0].x *2)/20);
 
             ballAcceleration[b] = thrust[b];
 
@@ -209,6 +221,8 @@ class PoolBall {
             shootBall[0] = false;
             ballVelocity[0] = ballVelocity[0].mult(0);
           }
+
+
           //ballVelocity[b] = ballVelocity[b];
 
           //ballLocations[b].add(ballVelocity[b]);

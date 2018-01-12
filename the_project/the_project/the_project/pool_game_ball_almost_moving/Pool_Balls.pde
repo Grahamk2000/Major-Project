@@ -42,7 +42,7 @@ class PoolBall {
     for (int i=0; i<numberOfBalls; i++) {
       ballVelocity[i] = new PVector(0, 0);
       ballAcceleration[i] = new PVector(0, 0);
-      dir[i] = new PVector(0.00000000001, 0.00000000001);
+      dir[i] = new PVector(0.01, 0.01);
       shootBall[i]= false;
     }
 

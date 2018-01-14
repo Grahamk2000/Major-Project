@@ -1,11 +1,11 @@
 class PoolBall {
   //does this still work
-  
-  
-//save test
-  int numberOfBalls = 5;
 
-  float ballDiam = width/50;
+
+  //save test
+  int numberOfBalls = 16;
+
+  float ballDiam = width/75;
   float ballRadius = ballDiam/2;
   PVector ballLocations[], ballVelocity[], ballAcceleration[], thrust[], dir[];
 
@@ -50,11 +50,23 @@ class PoolBall {
     tableHeight = _tableHeight;
 
 
-    ballLocations[0] = new PVector(width/2, height/2);
-    ballLocations[1] = new PVector(width/3, height/2);
-    ballLocations[2] = new PVector(2*(width/3), height/3 + 60);
-    ballLocations[3] = new PVector(2*(width/3), height/3 + 160);
-    ballLocations[4] = new PVector(2*(width/3), height/3);
+    ballLocations[0] = new PVector(width/8+ width/4, height/2);
+    ballLocations[1] = new PVector(width/8+ width/2, height/2);
+    ballLocations[2] = new PVector(width/8 + width/2 + ballDiam+1, height/2+ ballRadius+1);
+    ballLocations[3] = new PVector(width/8 + width/2 + ballDiam+1, height/2- ballRadius-1);
+    ballLocations[4] = new PVector((width/8+ width/2 + (2* ballDiam)) + 1, height/2);
+    ballLocations[5] = new PVector((width/8+ width/2 + (2* ballDiam)) + 1, height/2 + ballDiam+1);
+    ballLocations[6] = new PVector((width/8+ width/2 + (2* ballDiam)) + 1, height/2- ballDiam-1);
+    ballLocations[7] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2+ ballRadius+1);
+    ballLocations[8] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2- ballRadius-1);
+    ballLocations[9] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2+ (3*ballRadius)+2);
+    ballLocations[10] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2- (3*ballRadius)-2);
+    ballLocations[11] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2);
+    ballLocations[12] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + ballDiam+1);
+    ballLocations[13] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- ballDiam-1);
+    ballLocations[14] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + (2*ballDiam)+2);
+    ballLocations[15] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- (2*ballDiam)-2);
+
     //ballAcceleration[0] = new PVector(0, 0);
     //ballVelocity[0] = new PVector(0, 0);
   }
@@ -181,72 +193,72 @@ class PoolBall {
 
 
           //for (int i=0; i<numberOfBalls; i++) {
-            //if (shootBall[i] == true) {
-              if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {
-                println("bounce needed");
-
-
-
-
-    
-                dir[b] = ballLocations[a].copy();
-
-                if (ballLocations[a].x < ballLocations[b].x) {
-
-                  dir[b].x = dir[b].x * (-1);
-                }
-
-                if (ballLocations[a].y < ballLocations[b].y) {
-
-                  dir[b].y = dir[b].y *(-1);
-                }
-                println("this happened");
-                //            dir[b].rotate(rotation[b]);
-                //            //popMatrix();
+          //if (shootBall[i] == true) {
+          if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {
+            println("bounce needed");
 
 
 
 
 
-                thrust[b] = dir[b].copy();
+            dir[b] = ballLocations[a].copy();
 
-                thrust[b].mult(.01);
-                //thrust[a].mult(.01);
+            if (ballLocations[a].x < ballLocations[b].x) {
 
-                //thrust[a] = thrust[a].mult(-1);
-                thrust[b] = thrust[b].mult(-0.2);
-                //ballVelocity[a].add(dir[b].div(30));
-                //thrust[a] = thrust[a].mult(2);
-                thrust[b].normalize();
-                //thrust[b].div(1.1);
-                //thrust[a].normalize();
-                //thrust[b].mult((ballVelocity[a].x *2 )* (ballVelocity[a].x *2)/20);
-
-                ballAcceleration[b] = thrust[b];
-
-                shootBall[b] = true;
-                shootBall[a] = true;
-                //ballVelocity[a] = ballVelocity[a].mult(a);
-              }
-
-
-              //ballVelocity[b] = ballVelocity[b];
-
-              //ballLocations[b].add(ballVelocity[b]);
-              //ballVelocity[b].add(ballAcceleration[b]);
-              //ballAcceleration[b].set(0, 0);
-              //ballVelocity[b].div(1.01);
-              //println(ballVelocity[0]);
-
-              //if (abs(ballVelocity[b].x) <= 0.08 && abs(ballVelocity[b].y) <= 0.08) {
-              //  shootBall[b] = false;
-              //  println("done");
-              //}
+              dir[b].x = dir[b].x * (-1);
             }
+
+            if (ballLocations[a].y < ballLocations[b].y) {
+
+              dir[b].y = dir[b].y *(-1);
+            }
+            println("this happened");
+            //            dir[b].rotate(rotation[b]);
+            //            //popMatrix();
+
+
+
+
+
+            thrust[b] = dir[b].copy();
+
+            thrust[b].mult(.01);
+            //thrust[a].mult(.01);
+
+            //thrust[a] = thrust[a].mult(-1);
+            thrust[b] = thrust[b].mult(-0.2);
+            //ballVelocity[a].add(dir[b].div(30));
+            //thrust[a] = thrust[a].mult(2);
+            thrust[b].normalize();
+            //thrust[b].div(1.1);
+            //thrust[a].normalize();
+            //thrust[b].mult((ballVelocity[a].x *2 )* (ballVelocity[a].x *2)/20);
+
+            ballAcceleration[b] = thrust[b];
+
+            shootBall[b] = true;
+            shootBall[a] = true;
+            //ballVelocity[a] = ballVelocity[a].mult(a);
           }
+
+
+          //ballVelocity[b] = ballVelocity[b];
+
+          //ballLocations[b].add(ballVelocity[b]);
+          //ballVelocity[b].add(ballAcceleration[b]);
+          //ballAcceleration[b].set(0, 0);
+          //ballVelocity[b].div(1.01);
+          //println(ballVelocity[0]);
+
+          //if (abs(ballVelocity[b].x) <= 0.08 && abs(ballVelocity[b].y) <= 0.08) {
+          //  shootBall[b] = false;
+          //  println("done");
+          //}
         }
       }
-    //}
+    }
+  }
+  //}
   //}
 
   void bounceOffWall() {
@@ -269,14 +281,23 @@ class PoolBall {
 
   void displayBalls() {
     for (int i=0; i<ballLocations.length; i++) {
-      fill(255, 255, 0);
-
+      
+      if(i% 2 == 0){
+        fill(255, 0, 0);
+      }
+      else{
+        fill(0, 0, 255);
+      }
+      
 
       ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
     }
 
     fill(255);
     ellipse(ballLocations[0].x, ballLocations[0].y, ballDiam, ballDiam);
+    
+    fill(0);
+    ellipse(ballLocations[4].x, ballLocations[4].y, ballDiam, ballDiam);
   }
 
   void ballInPocket() {

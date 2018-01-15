@@ -5,7 +5,7 @@ class PoolBall {
   //save test
   int numberOfBalls = 16;
 
-  float ballDiam = width/75;
+  float ballDiam = width/60;
   float ballRadius = ballDiam/2;
   PVector ballLocations[], ballVelocity[], ballAcceleration[], thrust[], dir[];
 
@@ -21,6 +21,7 @@ class PoolBall {
   boolean showAimingLine = true;
   boolean bounceBall[] ;
   float rotation[];
+  boolean displayBall[];
 
 
 
@@ -36,7 +37,8 @@ class PoolBall {
     shootBall = new boolean[numberOfBalls];
     bounceBall= new boolean[numberOfBalls] ;
     rotation= new float[numberOfBalls];
-
+    displayBall = new boolean[numberOfBalls];
+    
 
 
     for (int i=0; i<numberOfBalls; i++) {
@@ -44,6 +46,7 @@ class PoolBall {
       ballAcceleration[i] = new PVector(0, 0);
       dir[i] = new PVector(0.01, 0.01);
       shootBall[i]= false;
+
     }
 
     tableWidth =  _tableWidth;
@@ -179,6 +182,7 @@ class PoolBall {
     for (int a=0; a<numberOfBalls; a++) {
       for (int b=0; b<numberOfBalls; b++) {
         //int a = 0;
+        //if (a == true && b == true){
         if (a != b) {
 
 
@@ -242,20 +246,9 @@ class PoolBall {
           }
 
 
-          //ballVelocity[b] = ballVelocity[b];
-
-          //ballLocations[b].add(ballVelocity[b]);
-          //ballVelocity[b].add(ballAcceleration[b]);
-          //ballAcceleration[b].set(0, 0);
-          //ballVelocity[b].div(1.01);
-          //println(ballVelocity[0]);
-
-          //if (abs(ballVelocity[b].x) <= 0.08 && abs(ballVelocity[b].y) <= 0.08) {
-          //  shootBall[b] = false;
-          //  println("done");
-          //}
         }
       }
+        //}
     }
   }
   //}
@@ -301,8 +294,11 @@ class PoolBall {
   }
 
   void ballInPocket() {
-    //for (int i=1; i<ballLocations.length; i++) {
-    //  if (ballLocations[i].dist()){
-    //  }
+    
+    
+  //  for (int i=1; i<ballLocations.length; i++) {
+  //    if (ballLocations[i].dist(width,2)){
+  //    }
+  //}
   }
 }

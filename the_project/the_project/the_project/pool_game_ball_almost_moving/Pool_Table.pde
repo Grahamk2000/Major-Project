@@ -36,7 +36,7 @@ class PoolTable{
      pocket[3] = new PVector(width/4, height/4 + tableHeight);
      ellipse(width/4, height/4 + tableHeight, pocketSize, pocketSize);
      
-     pocket[4] = new PVector(width - width/4, height/4 + tableHeight);
+     pocket[4] = new PVector(width/23, height/4 + tableHeight);
      ellipse(width/2, height/4 + tableHeight, pocketSize, pocketSize);
      
      

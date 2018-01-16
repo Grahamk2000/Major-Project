@@ -22,7 +22,8 @@ class PoolBall {
   boolean bounceBall[] ;
   float rotation[];
   boolean displayBall[];
-
+  boolean areThereBallsMoving = false;
+  int numberOfBallsMoving;
 
 
 
@@ -82,7 +83,7 @@ class PoolBall {
 
   void handleKeyPressed() {
     for (int i=0; i<numberOfBalls; i++) {
-      if (shootBall[0] == false) {
+      if (areThereBallsMoving == false) {
 
         //clickedMouseX = mouseX;
         //clickedMouseY = mouseY;
@@ -145,6 +146,7 @@ class PoolBall {
 
         if (abs(ballVelocity[i].x) <= 0.08 && abs(ballVelocity[i].y) <= 0.08) {
           shootBall[i] = false;
+          checkForMotion();
           println("done");
         }
       }
@@ -290,5 +292,21 @@ class PoolBall {
     }
     }
     }
+  }
+  
+  void checkForMotion(){
+    for (int i=0; i<shootBall.length; i++) {
+      if(shootBall[i] == true){
+        numberOfBallsMoving = numberOfBallsMoving + 1;
+        
+      }
+    }
+    if (numberOfBallsMoving == 0){
+     areThereBallsMoving = false; 
+    }
+    else{
+     areThereBallsMoving = true; 
+    }
+    
   }
 }

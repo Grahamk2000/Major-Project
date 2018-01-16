@@ -29,6 +29,7 @@ void draw(){
   thePoolBalls.updateBalls();
   thePoolBalls.bounceOffWall();
   thePoolBalls.bounceOffBall();
+  thePoolBalls.ballInPocket(thePoolTable);
   
   
   

@@ -5,7 +5,7 @@ class PoolBall {
   //save test
   int numberOfBalls = 16;
 
-  float ballDiam = width/60;
+  float ballDiam = width/75;
   float ballRadius = ballDiam/2;
   PVector ballLocations[], ballVelocity[], ballAcceleration[], thrust[], dir[];
 
@@ -21,7 +21,6 @@ class PoolBall {
   boolean showAimingLine = true;
   boolean bounceBall[] ;
   float rotation[];
-  boolean displayBall[];
 
 
 
@@ -37,7 +36,6 @@ class PoolBall {
     shootBall = new boolean[numberOfBalls];
     bounceBall= new boolean[numberOfBalls] ;
     rotation= new float[numberOfBalls];
-    displayBall = new boolean[numberOfBalls];
 
 
 
@@ -46,7 +44,6 @@ class PoolBall {
       ballAcceleration[i] = new PVector(0, 0);
       dir[i] = new PVector(0.01, 0.01);
       shootBall[i]= false;
-      displayBall[i] = true;
     }
 
     tableWidth =  _tableWidth;
@@ -132,7 +129,7 @@ class PoolBall {
     for (int i=0; i<numberOfBalls; i++) {
 
 
-      if (shootBall[i] == true && displayBall[i] == true) {
+      if (shootBall[i] == true) {
         //println("the velocity is" + ballVelocity[0]);
 
         ballVelocity[i].add(ballAcceleration[i]);
@@ -169,10 +166,10 @@ class PoolBall {
       }
 
       line(aimingX, aimingY, ballLocations[0].x, ballLocations[0].y);
-      fill(181, 18, 168);
+      fill(255, 0, 0);
 
       ellipse(clickedMouseX, clickedMouseY, ballDiam, ballDiam);
-      fill(181, 18, 168);
+      fill(255, 0, 0);
       ellipse(mouseX, mouseY, ballDiam, ballDiam);
     }
   }
@@ -182,113 +179,130 @@ class PoolBall {
     for (int a=0; a<numberOfBalls; a++) {
       for (int b=0; b<numberOfBalls; b++) {
         //int a = 0;
-        //if (a == true && b == true){
-        if (displayBall[a] == true && displayBall[b] == true) {
-          if (a != b) {
+        if (a != b) {
+
+
+
+          //if (ballLocations[0].dist(ballLocations[b]) >= ballDiam) {
+          //  if(shootBall[b] == true){
+          //  shootBall[0] = true;  
+          //  ballVelocity[0] = dir[b].copy();
+          //  ballVelocity[0].mult(-1);
+          //  }
+          //}
+
+
+          //for (int i=0; i<numberOfBalls; i++) {
+          //if (shootBall[i] == true) {
+          if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {
+            println("bounce needed");
 
 
 
 
 
-            if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {
-              println("bounce needed");
+            dir[b] = ballLocations[a].copy();
 
+            if (ballLocations[a].x < ballLocations[b].x) {
 
-
-
-
-              dir[b] = ballLocations[a].copy();
-
-              if (ballLocations[a].x < ballLocations[b].x) {
-
-                dir[b].x = dir[b].x * (-1);
-              }
-
-              if (ballLocations[a].y < ballLocations[b].y) {
-
-                dir[b].y = dir[b].y *(-1);
-              }
-              println("this happened");
-
-
-
-
-
-
-              thrust[b] = dir[b].copy();
-
-              thrust[b].mult(.01);
-
-
-              thrust[b] = thrust[b].mult(-0.2);
-
-
-              thrust[b].normalize();
-
-              ballAcceleration[b] = thrust[b];
-
-              shootBall[b] = true;
-              shootBall[a] = true;
+              dir[b].x = dir[b].x * (-1);
             }
+
+            if (ballLocations[a].y < ballLocations[b].y) {
+
+              dir[b].y = dir[b].y *(-1);
+            }
+            println("this happened");
+            //            dir[b].rotate(rotation[b]);
+            //            //popMatrix();
+
+
+
+
+
+            thrust[b] = dir[b].copy();
+
+            thrust[b].mult(.01);
+            //thrust[a].mult(.01);
+
+            //thrust[a] = thrust[a].mult(-1);
+            thrust[b] = thrust[b].mult(-0.2);
+            //ballVelocity[a].add(dir[b].div(30));
+            //thrust[a] = thrust[a].mult(2);
+            thrust[b].normalize();
+            //thrust[b].div(1.1);
+            //thrust[a].normalize();
+            //thrust[b].mult((ballVelocity[a].x *2 )* (ballVelocity[a].x *2)/20);
+
+            ballAcceleration[b] = thrust[b];
+
+            shootBall[b] = true;
+            shootBall[a] = true;
+            //ballVelocity[a] = ballVelocity[a].mult(a);
           }
+
+
+          //ballVelocity[b] = ballVelocity[b];
+
+          //ballLocations[b].add(ballVelocity[b]);
+          //ballVelocity[b].add(ballAcceleration[b]);
+          //ballAcceleration[b].set(0, 0);
+          //ballVelocity[b].div(1.01);
+          //println(ballVelocity[0]);
+
+          //if (abs(ballVelocity[b].x) <= 0.08 && abs(ballVelocity[b].y) <= 0.08) {
+          //  shootBall[b] = false;
+          //  println("done");
+          //}
         }
       }
     }
   }
-
+  //}
+  //}
 
   void bounceOffWall() {
     for (int i=0; i<numberOfBalls; i++) {
-      if (displayBall[i] == true) {
-        if (ballLocations[i].y < height/4 + ballRadius) {//top of table
-          println("bounce");
-          ballVelocity[i].y = ballVelocity[i].y * -1;
-        } else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
-          println("bounce");
-          ballVelocity[i].y = ballVelocity[i].y * -1;
-        } else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
-          println("bounce");
-          ballVelocity[i].x = ballVelocity[i].x * -1;
-        } else if (ballLocations[i].x > width - width/4  - ballRadius) {//left side of table 
-          println("bounce");
-          ballVelocity[i].x = ballVelocity[i].x * -1;
-
-        }
+      if (ballLocations[i].y < height/4 + ballRadius) {//top of table
+        println("bounce");
+        ballVelocity[i].y = ballVelocity[i].y * -1;
+      } else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
+        println("bounce");
+        ballVelocity[i].y = ballVelocity[i].y * -1;
+      } else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
+        println("bounce");
+        ballVelocity[i].x = ballVelocity[i].x * -1;
+      } else if (ballLocations[i].x > width - width/4  - ballRadius) {//left side of table 
+        println("bounce");
+        ballVelocity[i].x = ballVelocity[i].x * -1;
       }
     }
   }
 
   void displayBalls() {
     for (int i=0; i<ballLocations.length; i++) {
-      if (displayBall[i] == true) {
-
-        if (i% 2 == 0) {
-          fill(255, 0, 0);
-        } else {
-          fill(0, 0, 255);
-        }
-
-
-        ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
-
-        if (i == 0) {
-          fill(255);
-          ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
-        }
-        if (i == 4) {
-          fill(0);
-          ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
-        }
+      
+      if(i% 2 == 0 || i == 15){
+        fill(255, 0, 0);
       }
+      else{
+        fill(0, 0, 255);
+      }
+      
+
+      ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
     }
+
+    fill(255);
+    ellipse(ballLocations[0].x, ballLocations[0].y, ballDiam, ballDiam);
+    
+    fill(0);
+    ellipse(ballLocations[4].x, ballLocations[4].y, ballDiam, ballDiam);
   }
-  void ballInPocket(PoolTable thePoolTable) {
-    for (int b=0; b<ballLocations.length; b++) {
-      for (int p=0; p<thePoolTable.pocket.length; p++) {
-    if (ballLocations[b].dist(thePoolTable.pocket[p]) <= thePoolTable.pocketSize/2){
-      displayBall[b] = false;
-    }
-    }
-    }
+
+  void ballInPocket() {
+    //for (int i=1; i<ballLocations.length; i++) {
+    //  if (ballLocations[i].dist()){
+    //  }
   }
 }

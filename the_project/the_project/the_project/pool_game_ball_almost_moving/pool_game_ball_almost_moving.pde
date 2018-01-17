@@ -30,6 +30,7 @@ void draw(){
   thePoolBalls.bounceOffWall();
   thePoolBalls.bounceOffBall();
   thePoolBalls.ballInPocket(thePoolTable);
+  thePoolBalls.checkForMotion();
   
   
   

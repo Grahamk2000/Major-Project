@@ -37,10 +37,9 @@ void draw(){
 }
 
 void mousePressed() {
-  
-//if(thePoolBalls.cueBallPlaced == true){
+
   thePoolBalls.handleMousePressed();
-//}
+ 
 }
 
 void keyPressed() {

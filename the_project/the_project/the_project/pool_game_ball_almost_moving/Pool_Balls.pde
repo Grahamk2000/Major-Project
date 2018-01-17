@@ -84,9 +84,7 @@ class PoolBall {
   }
 
   void handleKeyPressed() {
-   
-    if (areThereBallsMoving == false) {  
-      if(cueBallPlaced == true){
+    if (areThereBallsMoving == false) {    
 
       for (int i=0; i<numberOfBalls; i++) {
 
@@ -97,8 +95,7 @@ class PoolBall {
         PVector mouse = new PVector(clickedMouseX-ballLocations[0].x, clickedMouseY-ballLocations[0].y);
         println(clickedMouseX, clickedMouseY);
 
-        dir[0] = mouse.copy();
-        
+        dir[0] = mouse;
         //float rotationAmount = PVector.angleBetween(dir[0], mouse);
         //dir[0].rotate(rotationAmount);
 
@@ -132,7 +129,6 @@ class PoolBall {
 
         shootBall[0] = true;
       }
-    }
     }
   }
 
@@ -330,7 +326,6 @@ class PoolBall {
       cueBallPlaced = false;
     }
     if (cueBallPlaced == false) {
-     
       textAlign(CENTER);
       text("click on the board to replace the cue ball", width/2, height/10);
 
@@ -377,7 +372,7 @@ class PoolBall {
           
           fill(255);
           if (mousePressed == true){
-            ballLocations[0].set(mouseX, mouseY);
+            ballLocations[0] = (newCueBall);
             displayBall[0] = true;
             cueBallPlaced = true;
             
@@ -385,7 +380,9 @@ class PoolBall {
           
           
         }
+        
 
+        
       } 
       
       if (goodPlacement == false){

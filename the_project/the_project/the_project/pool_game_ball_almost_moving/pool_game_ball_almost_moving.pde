@@ -1,7 +1,24 @@
-
-
-
-
+//Pool Game Major Project
+//Graham Kelly
+//Computer Science 30 - Mr.Schellenberg
+//January 18, 2018
+//
+//Instructions:
+//aim using the mouse
+//when you have the mouse in the spot you want it hold it there
+//choose the power of your shot by using the numbers 1 - 9 higher number = harder shot
+//you must wait for all balls to stop moving before taking another shot
+//
+//pressing the space key will allow you to replace the cue ball if you feel like cheating
+//the R key will reset all balls back to their original positions
+//
+//Extra for experts: 
+//Making this game was by far the most difficult project this semester
+//the collision detection is fairly advanced except for the balls bouncing more than they would in the real world
+//
+//Areas for improvement:
+//I would like to make the interactions between the balls a little more realistic
+//Add rules into the game that would ensure the player struck their own ball before their opponents
 
 
 //setting up classes

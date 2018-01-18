@@ -61,7 +61,10 @@ void draw() {
     thePoolBalls.bounceOffBall();
     thePoolBalls.ballInPocket(thePoolTable);
     thePoolBalls.checkForMotion();
+    
+    if(thePoolBalls.cueBallInHand == true){
     thePoolBalls.isTheCueBallInAPocket();
+    }
   }
 }
 

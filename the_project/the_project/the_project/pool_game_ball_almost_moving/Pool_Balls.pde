@@ -26,9 +26,10 @@ class PoolBall {
   boolean displayBall[];
   boolean areThereBallsMoving = false;
   boolean cueBallPlaced = true;
-  boolean cueBallWasRecentlyPlaced = false;
+  //boolean cueBallWasRecentlyPlaced = false;
   int numberOfBallsMoving;
   boolean eightBallSunk = false;
+  boolean cueBallInHand = false;
 
 
   PoolBall(int _tableWidth, int _tableHeight) {
@@ -105,29 +106,43 @@ class PoolBall {
         if (key == ' ') {
           thrust[0].mult(0);
         }
-        
-        if(key == '0'){
-          //do nothing
+
+        if (key == '0') {//pickup cue ball
+          
           thrust[0].mult(0);
+          cueBallInHand = true;
           displayBall[0] = false;
           cueBallPlaced = false;
-          isTheCueBallInAPocket();
+          //isTheCueBallInAPocket();
+        }
+        if (key == 'r' || key == 'R') {
+          if (eightBallSunk == true) {
+            resetBalls();
+            thrust[0].mult(0);
+          }
         }
 
-        if (key == '1') {
-          thrust[0].mult(2);
-        } else if (key == '2') {
-          thrust[0].mult(3);
-        } else if (key == '3') {
-          thrust[0].mult(4);
-        } else if (key == '4') {
-          thrust[0].mult(7);
-        } 
 
-        if (key == '5') {
+        if (key == '1') {
+          thrust[0].mult(1);
+        } else if (key == '2') {
+          thrust[0].mult(2);
+        } else if (key == '3') {
+          thrust[0].mult(3);
+        } else if (key == '4') {
+          thrust[0].mult(4);
+        } else if (key == '5') {
+          thrust[0].mult(5);
+        } else if (key == '6') {
+          thrust[0].mult(6);
+        } else if (key == '7') {
+          thrust[0].mult(7);
+        } else if (key == '8') {
+          thrust[0].mult(8);
+        } else if (key == '9') {
           thrust[0].mult(9);
-        } else {
-          thrust[0].mult(1.5);
+        }  else {
+          thrust[0].mult(0);
         }
 
 
@@ -176,7 +191,6 @@ class PoolBall {
         fill(181, 18, 168);
         ellipse(mouseX, mouseY, ballDiam, ballDiam);
       }
-      
     }
   }
 
@@ -285,13 +299,10 @@ class PoolBall {
           displayBall[b] = false;
           shootBall[b] = false;
           ballLocations[b].set(0, 0);
-          
-          if(b == 4){
+
+          if (b == 4) {
             eightBallSunk = true;
           }
-          
-          
-          
         }
       }
     }
@@ -307,10 +318,11 @@ class PoolBall {
     }
     if (numberOfBallsMoving == 0) {
       areThereBallsMoving = false; 
-      //isTheCueBallInAPocket();
+      isTheCueBallInAPocket();
     } else {
       numberOfBallsMoving = 0;
       areThereBallsMoving = true;
+      
     }
   }
 
@@ -320,6 +332,7 @@ class PoolBall {
     }
     if (cueBallPlaced == false) {
       ballLocations[0].set(0, 0);
+      fill(10, 70, 40);
       textAlign(CENTER);
       textSize(width/25);
       text("Click on the board to replace the cue ball", width/2, height/10);
@@ -367,7 +380,7 @@ class PoolBall {
 
             displayBall[0] = true;
             cueBallPlaced = true;
-            cueBallWasRecentlyPlaced = true;
+
             println("the state is" + state);
           }
         }
@@ -380,9 +393,9 @@ class PoolBall {
       ellipse(newCueBall.x, newCueBall.y, ballDiam, ballDiam);
     }
   }
- 
- void resetBalls(){
-   
+
+  void resetBalls() {
+
     ballLocations[0] = new PVector(width/8+ width/4, height/2);
     ballLocations[1] = new PVector(width/8+ width/2, height/2);
     ballLocations[2] = new PVector(width/8 + width/2 + ballDiam+1, height/2+ ballRadius+1);
@@ -399,11 +412,12 @@ class PoolBall {
     ballLocations[13] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- ballDiam-1);
     ballLocations[14] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + (2*ballDiam)+2);
     ballLocations[15] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- (2*ballDiam)-2);
-   
-   
-   
- }
- 
- 
- 
+    cueBallPlaced = true;
+    eightBallSunk = false;
+
+    for (int i=0; i<ballLocations.length; i++) {
+      displayBall[i] = true;
+      shootBall[i] = false;
+    }
+  }
 }

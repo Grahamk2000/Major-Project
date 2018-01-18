@@ -1,6 +1,5 @@
 class PoolBall {
-  //does this still work
-
+//variable setup
   int numberOfBalls = 16;
   int numberOfBallsMoving;
 
@@ -8,7 +7,6 @@ class PoolBall {
 
   float ballDiam = width/60;
   float ballRadius = ballDiam/2;
-  float tableWidth, tableHeight;
   float aimingX, aimingY;
 
   boolean shootBall[];
@@ -19,8 +17,8 @@ class PoolBall {
   boolean eightBallSunk = false;
   boolean cueBallInHand = false;
 
-
-  PoolBall(int _tableWidth, int _tableHeight) {
+//constructor
+  PoolBall() {
 
     ballLocations = new PVector[numberOfBalls];
     ballVelocity = new PVector[numberOfBalls];
@@ -40,10 +38,9 @@ class PoolBall {
       displayBall[i] = true;
     }
 
-    tableWidth =  _tableWidth;
-    tableHeight = _tableHeight;
+  
 
-
+//determines the starting location of all 16 balls
     ballLocations[0] = new PVector(width/8+ width/4, height/2);
     ballLocations[1] = new PVector(width/8+ width/2, height/2);
     ballLocations[2] = new PVector(width/8 + width/2 + ballDiam+1, height/2+ ballRadius+1);
@@ -61,8 +58,8 @@ class PoolBall {
     ballLocations[14] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + (2*ballDiam)+2);
     ballLocations[15] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- (2*ballDiam)-2);
   }
-
-
+  
+//behavior
   void handleKeyPressed() {
 
     if (areThereBallsMoving == false) { 
@@ -74,26 +71,25 @@ class PoolBall {
         thrust[0] = dir[0].copy();
         thrust[0].normalize();
 
-        if (key == ' ') {
+        if (key == ' ') {//the thrust is set to zero here so the cue ball doesnt move as soon as the game is started
           thrust[0].mult(0);
         }
 
-        if (key == '0') {//pickup cue ball
-
+        if (key == '0') {//this allows the player to cheat and pickup the cue ball
           thrust[0].mult(0);
           cueBallInHand = true;
           displayBall[0] = false;
           cueBallPlaced = false;
-  
         }
-        if (key == 'r' || key == 'R') {
-          if (eightBallSunk == true) {
+        
+        if (key == 'r' || key == 'R') {//allows the player to reset the game by pressing the r key
+          
             resetBalls();
             thrust[0].mult(0);
-          }
+          
         }
 
-        if (key == '1') {
+        if (key == '1') {//these are all of the different strengths of shots the higher the number pressed the harder the shot will be
           thrust[0].mult(1);
         } else if (key == '2') {
           thrust[0].mult(2);
@@ -123,14 +119,14 @@ class PoolBall {
   }
 
   void updateBalls() {
-    for (int i=0; i<numberOfBalls; i++) {
+    for (int i=0; i<numberOfBalls; i++) {//loops through all the balls and moves them if the require moving
 
       if (shootBall[i] == true && displayBall[i] == true) {
 
         ballVelocity[i].add(ballAcceleration[i]);
         ballLocations[i].add(ballVelocity[i]);
         ballAcceleration[i].set(0, 0);
-        ballVelocity[i].div(1.009);
+        ballVelocity[i].div(1.009);//friction to prevent the balls from rolling for an infinite amount of time
 
         if (abs(ballVelocity[i].x) <= 0.08 && abs(ballVelocity[i].y) <= 0.08) {
           shootBall[i] = false;
@@ -141,7 +137,7 @@ class PoolBall {
     displayBalls();
   }
 
-  void shotAiming() {
+  void shotAiming() {//draws the purple dot on the screen to help the player aim their shot
     if (areThereBallsMoving == false && displayBall[0]== true) {
 
       if (showAimingLine == true) {
@@ -152,7 +148,7 @@ class PoolBall {
     }
   }
 
-  void bounceOffBall() {
+  void bounceOffBall() {//collision detection between balls
 
     for (int a=0; a<numberOfBalls; a++) {
       for (int b=0; b<numberOfBalls; b++) {
@@ -160,7 +156,7 @@ class PoolBall {
         if (displayBall[a] == true && displayBall[b] == true) {
           if (a != b) {
 
-            if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {
+            if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {//if the distance between two balls centers in less than the diameter of one ball they have made contact
 
               dir[b] = ballLocations[a].copy();
 
@@ -175,7 +171,7 @@ class PoolBall {
               }
 
               thrust[b] = dir[b].copy();
-              thrust[b].mult(.01);
+              thrust[b].mult(.008);
               thrust[b] = thrust[b].mult(-0.2);
               thrust[b].normalize();
 
@@ -190,20 +186,19 @@ class PoolBall {
     }
   }
 
-  void bounceOffWall() {
+  void bounceOffWall() {//collision between a ball and the side of the table
     for (int i=0; i<numberOfBalls; i++) {
       if (displayBall[i] == true) {
         if (ballLocations[i].y < height/4 + ballRadius) {//top of table
-
           ballVelocity[i].y = ballVelocity[i].y * -1;
-        } else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
-
+        } 
+        else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
           ballVelocity[i].y = ballVelocity[i].y * -1;
-        } else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
-
+        } 
+        else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
           ballVelocity[i].x = ballVelocity[i].x * -1;
-        } else if (ballLocations[i].x > width - width/4  - ballRadius) {//left side of table 
-
+        } 
+        else if (ballLocations[i].x > width - width/4  - ballRadius) {//right side of table 
           ballVelocity[i].x = ballVelocity[i].x * -1;
         }
       }
@@ -213,19 +208,24 @@ class PoolBall {
   void displayBalls() {
     for (int i=0; i<ballLocations.length; i++) {
       if (displayBall[i] == true) {
-
+ //colours some balls red 
         if (i% 2 == 0) {
           fill(255, 0, 0);
-        } else {
+        } 
+        //colours some balls blue
+        else {
           fill(0, 0, 255);
         }
-
+//displays the blue and red balls
         ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
 
+//displays the white cue ball
         if (i == 0) {
           fill(255);
           ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
         }
+        
+        //displays the black ball(8 ball)
         if (i == 4) {
           fill(0);
           ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
@@ -234,7 +234,7 @@ class PoolBall {
     }
   }
 
-  void ballInPocket(PoolTable thePoolTable) {
+  void ballInPocket(PoolTable thePoolTable) {//detects if a ball has fallen into one of the six pockets
     for (int b=0; b<ballLocations.length; b++) {
       for (int p=0; p<thePoolTable.pocket.length; p++) {
         if (ballLocations[b].dist(thePoolTable.pocket[p]) <= thePoolTable.pocketSize/2) {
@@ -242,7 +242,7 @@ class PoolBall {
           shootBall[b] = false;
           ballLocations[b].set(0, 0);
 
-          if (b == 4) {
+          if (b == 4) {//if the black (8) ball goes into a pocket the game is able to be reset
             eightBallSunk = true;
           }
         }
@@ -250,27 +250,28 @@ class PoolBall {
     }
   }
 
-  void checkForMotion() {
+  void checkForMotion() {//makes sure there are no balls moving before the player can take another shot
     numberOfBallsMoving = 0;
-    for (int i=0; i<shootBall.length; i++) {
+    for (int i=0; i<shootBall.length; i++) {//loops through all the balls and counts the number that are still moving
       if (shootBall[i] == true) {
         numberOfBallsMoving = numberOfBallsMoving + 1;
       }
     }
-    if (numberOfBallsMoving == 0) {
+    if (numberOfBallsMoving == 0) {//the balls have stopped moving
       areThereBallsMoving = false; 
       isTheCueBallInAPocket();
-    } else {
+    } 
+    else {//if this happens balls must still be moving
       numberOfBallsMoving = 0;
       areThereBallsMoving = true;
     }
   }
 
-  void isTheCueBallInAPocket() {
+  void isTheCueBallInAPocket() {//determines if the cue ball is still on te table
     if (displayBall[0] == false) {
       cueBallPlaced = false;
     }
-    if (cueBallPlaced == false) {
+    if (cueBallPlaced == false) {//if the cue ball is not on the table it is able to be put back on the table
       ballLocations[0].set(0, 0);
       fill(10, 70, 40);
       textAlign(CENTER);
@@ -284,10 +285,10 @@ class PoolBall {
       newCueBall = new PVector(mouseX, mouseY);
 
       if (newCueBall.x > width/4 + ballRadius  && newCueBall.x < width - width/4 - ballRadius &&
-        newCueBall.y > height/4 + ballRadius  && newCueBall.y < height - height/4 - ballRadius) {
+        newCueBall.y > height/4 + ballRadius  && newCueBall.y < height - height/4 - ballRadius) {//prevents the player from placing the cue ball in an area not on the table
         newCueBallTouching = 0;
         for (int i=1; i<ballLocations.length; i++) {
-          if (ballLocations[i].dist(newCueBall) <= ballDiam) {
+          if (ballLocations[i].dist(newCueBall) <= ballDiam) {// prevents the player from placing the cue ball on top of another ball
 
             newCueBallTouching = newCueBallTouching + 1;
           }
@@ -301,7 +302,7 @@ class PoolBall {
         if (goodPlacement == true) {
 
           fill(255);
-          if (mousePressed == true) {
+          if (mousePressed == true) {// if the ball is in an acceptable location and the mouse is clicked the ball will be set down
             ballLocations[0].set(newCueBall.copy());
             ballVelocity[0].set(0, 0);
 
@@ -319,7 +320,7 @@ class PoolBall {
     }
   }
 
-  void resetBalls() {
+  void resetBalls() {//this occurs when the player pressed the r button, it returns all balls to their starting positions
 
     ballLocations[0] = new PVector(width/8+ width/4, height/2);
     ballLocations[1] = new PVector(width/8+ width/2, height/2);

@@ -1,8 +1,9 @@
 class PoolTable {
-
+//variable setup
   float tableWidth, tableHeight, pocketSize;
   PVector pocket[];
 
+//constructor
   PoolTable(int _tableWidth, int _tableHeight) {
 
     tableWidth =  _tableWidth;
@@ -14,13 +15,14 @@ class PoolTable {
   }
 
   void display() {
+    //draws the table
     noStroke();
     fill(60);
     rect(width/4 - pocketSize/2, height/4 - pocketSize/2, tableWidth + pocketSize, tableHeight + pocketSize);
     fill(#415F20);
     rect(width/4, height/4, tableWidth, tableHeight);
 
-    //pockets
+    //below are the 6 pockets on the edges o the pool table
     fill(0);
 
     pocket[0] = new PVector(width/4, height/4);
@@ -31,7 +33,6 @@ class PoolTable {
 
     pocket[2] = new PVector(width - width/4, height/4);
     ellipse(width - width/4, height/4, pocketSize, pocketSize);
-
 
     pocket[3] = new PVector(width/4, height/4 + tableHeight);
     ellipse(width/4, height/4 + tableHeight, pocketSize, pocketSize);

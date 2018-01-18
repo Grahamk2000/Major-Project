@@ -36,11 +36,11 @@ void draw(){
   
 }
 
-void mousePressed() {
-
-  thePoolBalls.handleMousePressed();
- 
-}
+//void mousePressed() {
+//if(thePoolBalls.displayBall[0] == true){
+//  thePoolBalls.handleMousePressed();
+//}
+//}
 
 void keyPressed() {
  thePoolBalls.handleKeyPressed() ;

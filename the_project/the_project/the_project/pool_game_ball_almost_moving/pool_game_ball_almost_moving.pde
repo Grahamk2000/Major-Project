@@ -1,11 +1,5 @@
-//test
-
 PoolTable thePoolTable;
 PoolBall thePoolBalls;
-
-
-
-
 
 int gameState = 1;
 void setup() {
@@ -43,14 +37,10 @@ void draw() {
     textSize(width/6);
     text("8", width/2, height/2 + height/10);
 
-
-
     textSize(width/19);
     fill(10, 70, 40);
     text("Please Press The Space Key To Begin", width/2, height/2);
   }
-
-
 
 
   if (gameState == 2) {
@@ -61,18 +51,12 @@ void draw() {
     thePoolBalls.bounceOffBall();
     thePoolBalls.ballInPocket(thePoolTable);
     thePoolBalls.checkForMotion();
-    
-    if(thePoolBalls.cueBallInHand == true){
-    thePoolBalls.isTheCueBallInAPocket();
+
+    if (thePoolBalls.cueBallInHand == true) {
+      thePoolBalls.isTheCueBallInAPocket();
     }
   }
 }
-
-//void mousePressed() {
-//if(thePoolBalls.displayBall[0] == true){
-//  thePoolBalls.handleMousePressed();
-//}
-//}
 
 void keyPressed() {
   if (gameState == 2) {

@@ -1,33 +1,21 @@
 class PoolBall {
   //does this still work
 
-
-  //save test
   int numberOfBalls = 16;
+  int numberOfBallsMoving;
+
+  PVector ballLocations[], ballVelocity[], ballAcceleration[], thrust[], dir[];
 
   float ballDiam = width/60;
   float ballRadius = ballDiam/2;
-  PVector ballLocations[], ballVelocity[], ballAcceleration[], thrust[], dir[];
-  //PVector newCueBall;
-
-  //PVector mouse, targetLocation;
-
-
-
   float tableWidth, tableHeight;
   float aimingX, aimingY;
-  //float clickedMouseX, clickedMouseY;
+
   boolean shootBall[];
-  int state[];
-  //boolean isRotatingNecessary = true;
   boolean showAimingLine = true;
-  //boolean bounceBall[] ;
-  //float rotation[];
   boolean displayBall[];
   boolean areThereBallsMoving = false;
   boolean cueBallPlaced = true;
-  //boolean cueBallWasRecentlyPlaced = false;
-  int numberOfBallsMoving;
   boolean eightBallSunk = false;
   boolean cueBallInHand = false;
 
@@ -37,12 +25,9 @@ class PoolBall {
     ballLocations = new PVector[numberOfBalls];
     ballVelocity = new PVector[numberOfBalls];
     ballAcceleration = new PVector[numberOfBalls];
-    //mouse = new PVector(mouseX, mouseY);
     dir = new PVector[numberOfBalls];
     thrust = new PVector[numberOfBalls];
     shootBall = new boolean[numberOfBalls];
-    //bounceBall= new boolean[numberOfBalls] ;
-    //rotation= new float[numberOfBalls];
     displayBall = new boolean[numberOfBalls];
 
 
@@ -50,7 +35,7 @@ class PoolBall {
     for (int i=0; i<numberOfBalls; i++) {
       ballVelocity[i] = new PVector(0, 0);
       ballAcceleration[i] = new PVector(0, 0);
-      dir[i] = new PVector(0.01, 0.01);
+      dir[i] = new PVector(0, 0);
       shootBall[i]= false;
       displayBall[i] = true;
     }
@@ -75,32 +60,18 @@ class PoolBall {
     ballLocations[13] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- ballDiam-1);
     ballLocations[14] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + (2*ballDiam)+2);
     ballLocations[15] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- (2*ballDiam)-2);
-
-    //ballAcceleration[0] = new PVector(0, 0);
-    //ballVelocity[0] = new PVector(0, 0);
   }
 
-  //void handleMousePressed() {
-
-
-  //}
 
   void handleKeyPressed() {
 
     if (areThereBallsMoving == false) { 
       if (displayBall[0] == true) {
 
-
-
         PVector mouse = new PVector(mouseX-ballLocations[0].x, mouseY-ballLocations[0].y);
 
-
         dir[0] = mouse;
-
         thrust[0] = dir[0].copy();
-
-
-
         thrust[0].normalize();
 
         if (key == ' ') {
@@ -108,12 +79,12 @@ class PoolBall {
         }
 
         if (key == '0') {//pickup cue ball
-          
+
           thrust[0].mult(0);
           cueBallInHand = true;
           displayBall[0] = false;
           cueBallPlaced = false;
-          //isTheCueBallInAPocket();
+  
         }
         if (key == 'r' || key == 'R') {
           if (eightBallSunk == true) {
@@ -121,7 +92,6 @@ class PoolBall {
             thrust[0].mult(0);
           }
         }
-
 
         if (key == '1') {
           thrust[0].mult(1);
@@ -141,36 +111,26 @@ class PoolBall {
           thrust[0].mult(8);
         } else if (key == '9') {
           thrust[0].mult(9);
-        }  else {
+        } else {
           thrust[0].mult(0);
         }
 
-
-
-
         ballAcceleration[0] = thrust[0];
-
 
         shootBall[0] = true;
       }
     }
-    //}
   }
 
   void updateBalls() {
     for (int i=0; i<numberOfBalls; i++) {
 
-
       if (shootBall[i] == true && displayBall[i] == true) {
-        //println("the velocity is" + ballVelocity[0]);
 
         ballVelocity[i].add(ballAcceleration[i]);
-
         ballLocations[i].add(ballVelocity[i]);
-
         ballAcceleration[i].set(0, 0);
-        ballVelocity[i].div(1.008);
-        //println(ballVelocity[0]);
+        ballVelocity[i].div(1.009);
 
         if (abs(ballVelocity[i].x) <= 0.08 && abs(ballVelocity[i].y) <= 0.08) {
           shootBall[i] = false;
@@ -180,8 +140,6 @@ class PoolBall {
 
     displayBalls();
   }
-
-
 
   void shotAiming() {
     if (areThereBallsMoving == false && displayBall[0]== true) {
@@ -194,7 +152,6 @@ class PoolBall {
     }
   }
 
-
   void bounceOffBall() {
 
     for (int a=0; a<numberOfBalls; a++) {
@@ -203,10 +160,7 @@ class PoolBall {
         if (displayBall[a] == true && displayBall[b] == true) {
           if (a != b) {
 
-
             if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {
-
-
 
               dir[b] = ballLocations[a].copy();
 
@@ -220,20 +174,9 @@ class PoolBall {
                 dir[b].y = dir[b].y *(-1);
               }
 
-
-
-
-
-
-
               thrust[b] = dir[b].copy();
-
               thrust[b].mult(.01);
-
-
               thrust[b] = thrust[b].mult(-0.2);
-
-
               thrust[b].normalize();
 
               ballAcceleration[b] = thrust[b];
@@ -246,7 +189,6 @@ class PoolBall {
       }
     }
   }
-
 
   void bounceOffWall() {
     for (int i=0; i<numberOfBalls; i++) {
@@ -278,7 +220,6 @@ class PoolBall {
           fill(0, 0, 255);
         }
 
-
         ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
 
         if (i == 0) {
@@ -292,6 +233,7 @@ class PoolBall {
       }
     }
   }
+
   void ballInPocket(PoolTable thePoolTable) {
     for (int b=0; b<ballLocations.length; b++) {
       for (int p=0; p<thePoolTable.pocket.length; p++) {
@@ -312,7 +254,6 @@ class PoolBall {
     numberOfBallsMoving = 0;
     for (int i=0; i<shootBall.length; i++) {
       if (shootBall[i] == true) {
-        //println(shootBall[i]);
         numberOfBallsMoving = numberOfBallsMoving + 1;
       }
     }
@@ -322,7 +263,6 @@ class PoolBall {
     } else {
       numberOfBallsMoving = 0;
       areThereBallsMoving = true;
-      
     }
   }
 
@@ -340,23 +280,14 @@ class PoolBall {
       PVector newCueBall;
       int newCueBallTouching;
       boolean goodPlacement = false;
-      //clickedMouseX = 0;
-      //clickedMouseY = 0;
-      //ballLocations[0].set();
 
       newCueBall = new PVector(mouseX, mouseY);
-      //constrain(newCueBallX, width/4, width- width/4);
-      //constrain(newCueBallY, height/4, height- height/4);
-
-
-
 
       if (newCueBall.x > width/4 + ballRadius  && newCueBall.x < width - width/4 - ballRadius &&
         newCueBall.y > height/4 + ballRadius  && newCueBall.y < height - height/4 - ballRadius) {
         newCueBallTouching = 0;
         for (int i=1; i<ballLocations.length; i++) {
           if (ballLocations[i].dist(newCueBall) <= ballDiam) {
-
 
             newCueBallTouching = newCueBallTouching + 1;
           }
@@ -367,21 +298,15 @@ class PoolBall {
           goodPlacement = false;
         }
 
-
         if (goodPlacement == true) {
-
 
           fill(255);
           if (mousePressed == true) {
             ballLocations[0].set(newCueBall.copy());
             ballVelocity[0].set(0, 0);
 
-
-
             displayBall[0] = true;
             cueBallPlaced = true;
-
-            println("the state is" + state);
           }
         }
       } 

@@ -15,6 +15,9 @@ class PoolTable{
   }
   
   void display(){
+    noStroke();
+    fill(60);
+    rect(width/4 - pocketSize/2 , height/4 - pocketSize/2, tableWidth + pocketSize, tableHeight + pocketSize);
      fill(#415F20);
      rect(width/4 , height/4, tableWidth, tableHeight);
      

@@ -13,6 +13,7 @@ class PoolBall {
   //PVector mouse, targetLocation;
 
 
+
   float tableWidth, tableHeight;
   float aimingX, aimingY;
   //float clickedMouseX, clickedMouseY;
@@ -27,7 +28,7 @@ class PoolBall {
   boolean cueBallPlaced = true;
   boolean cueBallWasRecentlyPlaced = false;
   int numberOfBallsMoving;
-
+  boolean eightBallSunk = false;
 
 
   PoolBall(int _tableWidth, int _tableHeight) {
@@ -84,68 +85,60 @@ class PoolBall {
   //}
 
   void handleKeyPressed() {
-    
+
     if (areThereBallsMoving == false) { 
       if (displayBall[0] == true) {
 
-//        if(cueBallWasRecentlyPlaced == true){
-//          ballLocations[0].set(ballLocations[0].x + 10, ballLocations[0].y + 1);
-//          cueBallWasRecentlyPlaced = false;
-//        }
-        
-        
-        
-        //for (int i=0; i<numberOfBalls; i++) {
 
 
-          //clickedMouseX = mouseX;
-          //clickedMouseY = mouseY;
-
-          //PVector mouse = new PVector(mouseX-ballLocations[0].x, mouseY-ballLocations[0].y);
-                    PVector mouse = new PVector(ballLocations[0].x - mouseX, ballLocations[0].y - mouseY);
-                    mouse.mult(-1);
+        PVector mouse = new PVector(mouseX-ballLocations[0].x, mouseY-ballLocations[0].y);
 
 
-          //println(clickedMouseX, clickedMouseY);
+        dir[0] = mouse;
 
-          dir[0] = mouse;
-          //float rotationAmount = PVector.angleBetween(dir[0], mouse);
-          //dir[0].rotate(rotationAmount);
+        thrust[0] = dir[0].copy();
 
 
 
-          //thrust = new PVector[numberOfBalls];
-          thrust[0] = dir[0].copy();
+        thrust[0].normalize();
 
-
-
-          thrust[0].normalize();
-
-          if (key == '1') {
-            thrust[0].mult(2);
-          } else if (key == '2') {
-            thrust[0].mult(3);
-          } else if (key == '3') {
-            thrust[0].mult(4);
-          } else if (key == '4') {
-            thrust[0].mult(7);
-          } 
-
-          if (key == '5') {
-            thrust[0].mult(9);
-          } else {
-            thrust[0].mult(1.5);
-          }
-
-
-
-
-          ballAcceleration[0] = thrust[0];
-
-
-          shootBall[0] = true;
+        if (key == ' ') {
+          thrust[0].mult(0);
         }
+        
+        if(key == '0'){
+          //do nothing
+          thrust[0].mult(0);
+          displayBall[0] = false;
+          cueBallPlaced = false;
+          isTheCueBallInAPocket();
+        }
+
+        if (key == '1') {
+          thrust[0].mult(2);
+        } else if (key == '2') {
+          thrust[0].mult(3);
+        } else if (key == '3') {
+          thrust[0].mult(4);
+        } else if (key == '4') {
+          thrust[0].mult(7);
+        } 
+
+        if (key == '5') {
+          thrust[0].mult(9);
+        } else {
+          thrust[0].mult(1.5);
+        }
+
+
+
+
+        ballAcceleration[0] = thrust[0];
+
+
+        shootBall[0] = true;
       }
+    }
     //}
   }
 
@@ -166,9 +159,6 @@ class PoolBall {
 
         if (abs(ballVelocity[i].x) <= 0.08 && abs(ballVelocity[i].y) <= 0.08) {
           shootBall[i] = false;
-
-
-          println("done");
         }
       }
     }
@@ -182,26 +172,14 @@ class PoolBall {
     if (areThereBallsMoving == false && displayBall[0]== true) {
 
       if (showAimingLine == true) {
-        if (mouseY < height/4) {
-          aimingY = height/4;
-          aimingX = mouseX;
-        } else if (mouseY > height/4 + tableHeight) {
-          aimingY = int( height/4 +  tableHeight);
-          aimingX = mouseX;
-        } else {
-          aimingX = mouseX;
-          aimingY = mouseY;
-        }
 
-        line(aimingX, aimingY, ballLocations[0].x, ballLocations[0].y);
-        //fill(181, 18, 168);
-
-        //ellipse(clickedMouseX, clickedMouseY, ballDiam, ballDiam);
         fill(181, 18, 168);
         ellipse(mouseX, mouseY, ballDiam, ballDiam);
       }
+      
     }
   }
+
 
   void bounceOffBall() {
 
@@ -213,7 +191,7 @@ class PoolBall {
 
 
             if (ballLocations[a].dist(ballLocations[b]) <= ballDiam) {
-              println("bounce needed");
+
 
 
               dir[b] = ballLocations[a].copy();
@@ -227,7 +205,7 @@ class PoolBall {
 
                 dir[b].y = dir[b].y *(-1);
               }
-              println("this happened");
+
 
 
 
@@ -260,16 +238,16 @@ class PoolBall {
     for (int i=0; i<numberOfBalls; i++) {
       if (displayBall[i] == true) {
         if (ballLocations[i].y < height/4 + ballRadius) {//top of table
-          println("bounce");
+
           ballVelocity[i].y = ballVelocity[i].y * -1;
         } else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
-          println("bounce");
+
           ballVelocity[i].y = ballVelocity[i].y * -1;
         } else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
-          println("bounce");
+
           ballVelocity[i].x = ballVelocity[i].x * -1;
         } else if (ballLocations[i].x > width - width/4  - ballRadius) {//left side of table 
-          println("bounce");
+
           ballVelocity[i].x = ballVelocity[i].x * -1;
         }
       }
@@ -306,6 +284,14 @@ class PoolBall {
         if (ballLocations[b].dist(thePoolTable.pocket[p]) <= thePoolTable.pocketSize/2) {
           displayBall[b] = false;
           shootBall[b] = false;
+          ballLocations[b].set(0, 0);
+          
+          if(b == 4){
+            eightBallSunk = true;
+          }
+          
+          
+          
         }
       }
     }
@@ -321,13 +307,10 @@ class PoolBall {
     }
     if (numberOfBallsMoving == 0) {
       areThereBallsMoving = false; 
-      isTheCueBallInAPocket();
-      println("this happened");
+      //isTheCueBallInAPocket();
     } else {
       numberOfBallsMoving = 0;
       areThereBallsMoving = true;
-
-      println("moving");
     }
   }
 
@@ -336,8 +319,10 @@ class PoolBall {
       cueBallPlaced = false;
     }
     if (cueBallPlaced == false) {
+      ballLocations[0].set(0, 0);
       textAlign(CENTER);
-      text("click on the board to replace the cue ball", width/2, height/10);
+      textSize(width/25);
+      text("Click on the board to replace the cue ball", width/2, height/10);
 
       PVector newCueBall;
       int newCueBallTouching;
@@ -361,12 +346,10 @@ class PoolBall {
 
 
             newCueBallTouching = newCueBallTouching + 1;
-            println("touch");
           }
         }
         if (newCueBallTouching == 0) {
           goodPlacement = true;
-          println("i hope i see this");
         } else {
           goodPlacement = false;
         }
@@ -385,6 +368,7 @@ class PoolBall {
             displayBall[0] = true;
             cueBallPlaced = true;
             cueBallWasRecentlyPlaced = true;
+            println("the state is" + state);
           }
         }
       } 
@@ -396,4 +380,30 @@ class PoolBall {
       ellipse(newCueBall.x, newCueBall.y, ballDiam, ballDiam);
     }
   }
+ 
+ void resetBalls(){
+   
+    ballLocations[0] = new PVector(width/8+ width/4, height/2);
+    ballLocations[1] = new PVector(width/8+ width/2, height/2);
+    ballLocations[2] = new PVector(width/8 + width/2 + ballDiam+1, height/2+ ballRadius+1);
+    ballLocations[3] = new PVector(width/8 + width/2 + ballDiam+1, height/2- ballRadius-1);
+    ballLocations[4] = new PVector((width/8+ width/2 + (2* ballDiam)) + 1, height/2);
+    ballLocations[5] = new PVector((width/8+ width/2 + (2* ballDiam)) + 1, height/2 + ballDiam+1);
+    ballLocations[6] = new PVector((width/8+ width/2 + (2* ballDiam)) + 1, height/2- ballDiam-1);
+    ballLocations[7] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2+ ballRadius+1);
+    ballLocations[8] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2- ballRadius-1);
+    ballLocations[9] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2+ (3*ballRadius)+2);
+    ballLocations[10] = new PVector(width/8 + width/2 + (3*ballDiam)+1, height/2- (3*ballRadius)-2);
+    ballLocations[11] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2);
+    ballLocations[12] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + ballDiam+1);
+    ballLocations[13] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- ballDiam-1);
+    ballLocations[14] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + (2*ballDiam)+2);
+    ballLocations[15] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- (2*ballDiam)-2);
+   
+   
+   
+ }
+ 
+ 
+ 
 }

@@ -1,5 +1,5 @@
 class PoolBall {
-//variable setup
+  //variable setup
   int numberOfBalls = 16;
   int numberOfBallsMoving;
 
@@ -17,7 +17,7 @@ class PoolBall {
   boolean eightBallSunk = false;
   boolean cueBallInHand = false;
 
-//constructor
+  //constructor
   PoolBall() {
 
     ballLocations = new PVector[numberOfBalls];
@@ -38,9 +38,9 @@ class PoolBall {
       displayBall[i] = true;
     }
 
-  
 
-//determines the starting location of all 16 balls
+
+    //determines the starting location of all 16 balls
     ballLocations[0] = new PVector(width/8+ width/4, height/2);
     ballLocations[1] = new PVector(width/8+ width/2, height/2);
     ballLocations[2] = new PVector(width/8 + width/2 + ballDiam+1, height/2+ ballRadius+1);
@@ -58,8 +58,8 @@ class PoolBall {
     ballLocations[14] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2 + (2*ballDiam)+2);
     ballLocations[15] = new PVector((width/8+ width/2 + (4* ballDiam)) + 1, height/2- (2*ballDiam)-2);
   }
-  
-//behavior
+
+  //behavior
   void handleKeyPressed() {
 
     if (areThereBallsMoving == false) { 
@@ -81,12 +81,11 @@ class PoolBall {
           displayBall[0] = false;
           cueBallPlaced = false;
         }
-        
+
         if (key == 'r' || key == 'R') {//allows the player to reset the game by pressing the r key
-          
-            resetBalls();
-            thrust[0].mult(0);
-          
+
+          resetBalls();
+          thrust[0].mult(0);
         }
 
         if (key == '1') {//these are all of the different strengths of shots the higher the number pressed the harder the shot will be
@@ -191,14 +190,11 @@ class PoolBall {
       if (displayBall[i] == true) {
         if (ballLocations[i].y < height/4 + ballRadius) {//top of table
           ballVelocity[i].y = ballVelocity[i].y * -1;
-        } 
-        else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
+        } else if (ballLocations[i].y > height - height/4 - ballRadius) {//bottom of table
           ballVelocity[i].y = ballVelocity[i].y * -1;
-        } 
-        else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
+        } else if (ballLocations[i].x < width/4 + ballRadius) {//left side of table
           ballVelocity[i].x = ballVelocity[i].x * -1;
-        } 
-        else if (ballLocations[i].x > width - width/4  - ballRadius) {//right side of table 
+        } else if (ballLocations[i].x > width - width/4  - ballRadius) {//right side of table 
           ballVelocity[i].x = ballVelocity[i].x * -1;
         }
       }
@@ -208,23 +204,23 @@ class PoolBall {
   void displayBalls() {
     for (int i=0; i<ballLocations.length; i++) {
       if (displayBall[i] == true) {
- //colours some balls red 
-        if (i% 2 == 0) {
+        //colours some balls red 
+        if (i% 2 == 0 || i == 15) {
           fill(255, 0, 0);
         } 
         //colours some balls blue
         else {
           fill(0, 0, 255);
         }
-//displays the blue and red balls
+        //displays the blue and red balls
         ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
 
-//displays the white cue ball
+        //displays the white cue ball
         if (i == 0) {
           fill(255);
           ellipse(ballLocations[i].x, ballLocations[i].y, ballDiam, ballDiam);
         }
-        
+
         //displays the black ball(8 ball)
         if (i == 4) {
           fill(0);
@@ -240,7 +236,11 @@ class PoolBall {
         if (ballLocations[b].dist(thePoolTable.pocket[p]) <= thePoolTable.pocketSize/2) {
           displayBall[b] = false;
           shootBall[b] = false;
+          
           ballLocations[b].set(0, 0);
+          
+           
+
 
           if (b == 4) {//if the black (8) ball goes into a pocket the game is able to be reset
             eightBallSunk = true;
@@ -260,8 +260,7 @@ class PoolBall {
     if (numberOfBallsMoving == 0) {//the balls have stopped moving
       areThereBallsMoving = false; 
       isTheCueBallInAPocket();
-    } 
-    else {//if this happens balls must still be moving
+    } else {//if this happens balls must still be moving
       numberOfBallsMoving = 0;
       areThereBallsMoving = true;
     }

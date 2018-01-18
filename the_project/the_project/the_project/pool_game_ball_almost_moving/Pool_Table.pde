@@ -1,4 +1,5 @@
 class PoolTable {
+  
 //variable setup
   float tableWidth, tableHeight, pocketSize;
   PVector pocket[];
